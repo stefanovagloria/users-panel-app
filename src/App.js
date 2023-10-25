@@ -20,6 +20,10 @@ function App() {
       })
   }, [])
 
+
+
+
+
   const addUserHandler = () => {
     setShowCreate(true);
   }
@@ -36,7 +40,11 @@ function App() {
 
     createUser(userData)
     .then(response => console.log(response))
+
+    setShowCreate(false);
   }
+
+
 
 
   return (

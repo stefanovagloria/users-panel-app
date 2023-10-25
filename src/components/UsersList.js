@@ -1,9 +1,87 @@
+import { getUserById, deleteUserById, updateUserById } from '../services/userService';
 import { User } from './User';
+import { UserInfo } from './UserInfo';
+import { DeleteUser } from './DeleteUser';
+import { Update } from './Update';
+import { useState } from 'react';
 
 export const UsersList = ({ users }) => {
+
+    const [showUserInfo, setShowUserInfo] = useState(false);
+    const [userInfoObj, setUserInfoObj] = useState(null)
+
+    const [showDeleteUser, setShowDeleteUser] = useState(false);
+    const [deleteUserId, setDeleteUserId] = useState(null);
+
+    const [showUpdateUser, setShowUpdateUser] = useState(false);
+    const [updateUserObj, setUpdateUserObj] = useState(null);
+
+
+
+    
+
+    const onInfoClickHandler = async (userId) => {
+        console.log(userId)
+        const user = await getUserById(userId);
+        console.log(user)
+        setShowUserInfo(true);
+        setUserInfoObj(user)
+
+    }
+
+    const onInfoCloseHandler = () => {
+        setShowUserInfo(null);
+    }
+
+    const onDeleteClickHandler = async (userId) => {
+        setShowDeleteUser(true);
+        setDeleteUserId(userId);
+    }
+
+    const deleteUser = async () => {
+        const result = await deleteUserById(deleteUserId);
+        setDeleteUserId(null);
+        setShowDeleteUser(false);
+    }
+
+    const onDeleteCloseHandler = () => {
+        setShowDeleteUser(false);
+    }
+
+    const onUpdateClickHandler = async (userId) => {
+
+        const user = await getUserById(userId);
+        console.log(user)
+        setShowUpdateUser(true)
+        setUpdateUserObj(user);
+       
+
+    }
+
+    const updateCloseHandler = () => {
+        setShowUpdateUser(null);
+    }
+
+    const updateUser = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+
+        const userData = Object.fromEntries(formData);
+
+        console.log(userData)
+        updateUserById(updateUserObj._id, userData)
+            .then(response => console.log(response))
+
+        setShowUpdateUser(null);
+    }
+
+
+
     return (
         <div className="table-wrapper">
-
+            {showUserInfo && <UserInfo onClose={onInfoCloseHandler} user={userInfoObj} />}
+            {showDeleteUser && <DeleteUser onDelete={deleteUser} onClose={onDeleteCloseHandler} />}
+            {showUpdateUser && <Update onClose={updateCloseHandler} onUpdate={updateUser} user={updateUserObj} />}
             <table className="table">
                 <thead>
                     <tr>
@@ -60,7 +138,13 @@ export const UsersList = ({ users }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user) => <User key={user._id} user={user} />)}
+                    {users.map((user) => <User
+                        key={user._id}
+                        user={user}
+                        onInfoClickHandler={onInfoClickHandler}
+                        onDeleteClickHandler={onDeleteClickHandler}
+                        onUpdateClickHandler={onUpdateClickHandler}
+                    />)}
                 </tbody>
             </table>
 
