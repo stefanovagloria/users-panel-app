@@ -39,7 +39,11 @@ function App() {
     const userData = Object.fromEntries(formData);
 
     createUser(userData)
-    .then(response => console.log(response))
+    .then(user => {
+      console.log(user.user)
+      console.log(users)
+      setUsers(state => [user.user, ...state])
+    })
 
     setShowCreate(false);
   }

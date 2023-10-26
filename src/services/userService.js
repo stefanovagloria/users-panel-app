@@ -18,7 +18,10 @@ export const createUser = async (userData) => {
             'Content-type': 'application/json'
         },
         body: JSON.stringify(data)
-    })
+    });
+
+    const createdUser = await response.json();
+    return createdUser;
 }
 
 export const getUserById = async (userId) => {
