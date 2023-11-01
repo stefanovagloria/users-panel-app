@@ -3,25 +3,12 @@ import { useState } from "react";
 export const Create = ({
     onClose,
     onSave,
+    formValues,
+    formChangeHandler,
+    errors
 }) => {
 
-    const [values, setValues] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        imageUrl: '',
-        country: '',
-        city: '',
-        street: '',
-        streetNumber: ''
-    })
-
-    const onChangeHandler = (e) => {
-        setValues(state => ({...state, [e.target.name] : e.target.value}));
-    }
-
-
+    console.log(errors.firstName)
     return (
         <div className="overlay">
             <div className="backdrop"></div>
@@ -38,27 +25,29 @@ export const Create = ({
                             </svg>
                         </button>
                     </header>
-                    <form onSubmit={(event) => onSave(event, values)}>
+                    <form onSubmit={(event) => onSave(event)}>
                         <div className="form-row">
                             <div className="form-group">
                                 <label htmlFor="firstName">First name</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-user"></i></span>
-                                    <input id="firstName" name="firstName" type="text" value={values.firstName || ''} onChange={(e) => onChangeHandler(e)} />
+                                    <input id="firstName" name="firstName" type="text" value={formValues.firstName} onChange={formChangeHandler} />
                                 </div>
-                                <p className="form-error">
-                                    First name should be at least 3 characters long!
-                                </p>
+                                {errors.firstName &&
+                                    <p className="form-error">
+                                        {errors.firstName}!
+                                    </p>}
                             </div>
                             <div className="form-group">
                                 <label htmlFor="lastName">Last name</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-user"></i></span>
-                                    <input id="lastName" name="lastName" type="text" value={values.lastName || ''} onChange={(e) => onChangeHandler(e)} />
+                                    <input id="lastName" name="lastName" type="text" value={formValues.lastName} onChange={formChangeHandler} />
                                 </div>
-                                <p className="form-error">
-                                    Last name should be at least 3 characters long!
-                                </p>
+                                {errors.lastName &&
+                                    <p className="form-error">
+                                       {errors.lastName}
+                                    </p>}
                             </div>
                         </div>
 
@@ -67,7 +56,7 @@ export const Create = ({
                                 <label htmlFor="email">Email</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-envelope"></i></span>
-                                    <input id="email" name="email" type="text" value={values.email || ''} onChange={(e) => onChangeHandler(e)} />
+                                    <input id="email" name="email" type="text" value={formValues.email} onChange={formChangeHandler} />
                                 </div>
                                 <p className="form-error">Email is not valid!</p>
                             </div>
@@ -75,7 +64,7 @@ export const Create = ({
                                 <label htmlFor="phoneNumber">Phone number</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-phone"></i></span>
-                                    <input id="phoneNumber" name="phoneNumber" type="text" value={values.phoneNumber || ''} onChange={(e) => onChangeHandler(e)}/>
+                                    <input id="phoneNumber" name="phoneNumber" type="text" value={formValues.phoneNumber} onChange={formChangeHandler} />
                                 </div>
                                 <p className="form-error">Phone number is not valid!</p>
                             </div>
@@ -85,7 +74,7 @@ export const Create = ({
                             <label htmlFor="imageUrl">Image Url</label>
                             <div className="input-wrapper">
                                 <span><i className="fa-solid fa-image"></i></span>
-                                <input id="imageUrl" name="imageUrl" type="text" value={values.imageUrl || ''} onChange={(e) => onChangeHandler(e)} />
+                                <input id="imageUrl" name="imageUrl" type="text" value={formValues.imageUrl} onChange={formChangeHandler} />
                             </div>
                             <p className="form-error">ImageUrl is not valid!</p>
                         </div>
@@ -95,7 +84,7 @@ export const Create = ({
                                 <label htmlFor="country">Country</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-map"></i></span>
-                                    <input id="country" name="country" type="text" value={values.country || ''} onChange={(e) => onChangeHandler(e)} />
+                                    <input id="country" name="country" type="text" value={formValues.country} onChange={formChangeHandler} />
                                 </div>
                                 <p className="form-error">
                                     Country should be at least 2 characters long!
@@ -105,7 +94,7 @@ export const Create = ({
                                 <label htmlFor="city">City</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-city"></i></span>
-                                    <input id="city" name="city" type="text" value={values.city || ''} onChange={(e) => onChangeHandler(e)} />
+                                    <input id="city" name="city" type="text" value={formValues.city} onChange={formChangeHandler} />
                                 </div>
                                 <p className="form-error">
                                     City should be at least 3 characters long!
@@ -118,7 +107,7 @@ export const Create = ({
                                 <label htmlFor="street">Street</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-map"></i></span>
-                                    <input id="street" name="street" type="text" value={values.street || ''} onChange={(e) => onChangeHandler(e)} />
+                                    <input id="street" name="street" type="text" value={formValues.street} onChange={formChangeHandler} />
                                 </div>
                                 <p className="form-error">
                                     Street should be at least 3 characters long!
@@ -128,7 +117,7 @@ export const Create = ({
                                 <label htmlFor="streetNumber">Street number</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-house-chimney"></i></span>
-                                    <input id="streetNumber" name="streetNumber" type="text" value={values.streetNumber || ''} onChange={(e) => onChangeHandler(e)} />
+                                    <input id="streetNumber" name="streetNumber" type="text" value={formValues.streetNumber} onChange={formChangeHandler} />
                                 </div>
                                 <p className="form-error">
                                     Street number should be a positive number!
